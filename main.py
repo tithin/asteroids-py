@@ -21,6 +21,7 @@ def main():
     Shot.containers = (shots, updatable, drawable)
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     field = AsteroidField()
+    score = 0
 
     while True:
         for event in pygame.event.get():
@@ -31,9 +32,16 @@ def main():
         for asteroid in asteroids:
             if asteroid.collision(player):
                 print("Game over!")
+                print(f"Your Final Score was: {score}")
                 sys.exit()
             for shot in shots:
                 if asteroid.collision(shot):
+                    if asteroid.radius == ASTEROID_MAX_RADIUS:
+                        score += 100
+                    elif asteroid.radius == ASTEROID_MIN_RADIUS:
+                        score += 25
+                    else:
+                        score += 50 
                     asteroid.split()
                     shot.kill()
 
